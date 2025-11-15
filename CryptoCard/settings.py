@@ -16,6 +16,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+from mongoengine import connect
+
+connect(
+    db=os.getenv("MONGODB_NAME"),
+    host=os.getenv("MONGODB_URI"),
+)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
