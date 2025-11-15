@@ -1,0 +1,14 @@
+{% extends 'layout.jekyll' %}
+{% block css %}index{% endblock %}
+{% block title %}<title>Crypto Card</title>{% endblock %}
+{% block meta %}
+    <meta name="description" content="">
+    <meta property="og:url" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Crypto Card">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="">
+{% endblock %}
+{% block content %}
+
+{% endblock %}
