@@ -1,0 +1,25 @@
+{% extends 'button_templates/temp_viewer.jekyll' %}
+{% block css %}popups/transaction_history{% endblock %}
+
+{% block content %}
+<div class="banner">
+    <button id="back"></button>
+    <button id="hamburger"><i class="fa-solid fa-bars"></i></button>
+    <p>Card Controls</p>
+</div>
+<div id="transactions">
+    {% for transaction in history %}
+        <div id="transaction">
+            <div id="retailer">
+                <p>{{ transaction.retailer }}</p>
+            </div>
+            <div id="date">
+                <p>{{ transaction.date }}</p>
+            </div>
+            <div id="amount">
+                <p>{{ transaction.amount }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

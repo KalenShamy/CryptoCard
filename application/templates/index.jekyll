@@ -1,5 +1,8 @@
 {% extends 'layout.jekyll' %}
 {% block css %}index{% endblock %}
+{% block js %}
+    <script src="/static/js/index.js"></script>
+{% endblock %}
 {% block title %}<title>Crypto Card</title>{% endblock %}
 {% block meta %}
     <meta name="description" content="">
@@ -10,5 +13,46 @@
     <meta property="og:image" content="">
 {% endblock %}
 {% block content %}
+
+<div id="banner">
+    <button id="hamburger"><i class="fa-solid fa-bars"></i></button>
+    <p>Cards</p>
+    <button id="add"><i class="fa-solid fa-plus"></i></button>
+</div>
+
+<div id="card-scroller">
+    {% for card in cards %}
+        <div class="card-page">
+            <div class="card">
+                <img src="/static/img/CryptoCard.png" alt="">
+            </div>
+            <div>
+                <p class="">Balance:</p>
+                <p>{{ card.balance }}</p>
+            </div>
+            
+            <div class="buttons-grid">
+                <div class="card-button">
+                    <button id="{{ card.id }}-card-controls"><i class="fa-solid fa-lock"></i></button>
+                    <p>Card Controls</p>
+                </div>
+                <div class="card-button">
+                    <button id="{{ card.id }}-transaction-history"><i class="fa-solid fa-clock-rotate-left"></i></button>
+                    <p>Transaction History</p>
+                </div>
+                <div class="card-button">
+                    <button id="{{ card.id }}-fraud"><i class="fa-solid fa-triangle-exclamation"></i></button>
+                    <p>Fraud</p>
+                </div>
+                <div class="card-button">
+                    <button id="{{ card.id }}-card-details"><i class="fa-solid fa-circle-info"></i></button>
+                    <p>Card Details</p>
+                </div>
+                
+            </div>
+        </div>
+
+    {% endfor %}
+</div>
 
 {% endblock %}

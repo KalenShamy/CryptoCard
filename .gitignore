@@ -2,6 +2,7 @@
 __pycache__
 migrations
 venv/
+keys.csv
 
 # temp
 db.sqlite3

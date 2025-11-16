@@ -1,0 +1,17 @@
+{% extends 'button_templates/temp_viewer.jekyll' %}
+{% block css %}popups/card_details{% endblock %}
+
+{% block content %}
+<div class="banner">
+    <button id="back"></button>
+    <p>Card Controls</p>
+</div>
+<div id="public-key">
+    <p> {{ public_key }} </p>
+</div>
+<div id="private-key">
+    <p> {{ private_key }} </p>
+</div>
+
+
+{% endblock %}
