@@ -14,7 +14,7 @@ class Wallet(Document):
 class Mesh(Wallet):
     pass
 
-class Account(Document):
+class Account(Wallet):
     meta = {
         'allow_inheritance': True
     }
