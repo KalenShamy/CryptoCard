@@ -37,10 +37,11 @@
 <div id="add" class="popup">
     <div class="banner">
         <button id="back">&lt;</button>
-        <p>Add Account</p>
+        <p>Add Card</p>
         <p></p>
     </div>
-    
+    <input type="number" name="" id="add-number">
+    <button id="add-submit-m">Add Card</button>
 </div>
 
 {% endblock %}

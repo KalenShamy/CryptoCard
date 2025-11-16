@@ -15,4 +15,14 @@ window.addEventListener('load', function() {
         })
         window.location.reload();
     }
+
+    document.getElementById("add-submit-m").onclick = function() {
+        fetch("add/merchant", {
+            "method": "POST",
+            "body": JSON.stringify({
+                "account_number": document.getElementById("add-number").value,
+            })
+        })
+        window.location.reload();
+    }
 });

@@ -62,7 +62,7 @@
         <p></p>
     </div>
     <input type="number" name="" id="add-number">
-    <button id="add-submit">Add Card</button>
+    <button id="add-submit-c">Add Card</button>
 </div>
 
 <div id="card-control" class="popup">
