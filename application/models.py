@@ -18,16 +18,9 @@ class Account(Document):
     meta = {
         'allow_inheritance': True
     }
-    username = StringField(required=True)
-    password_hash = StringField(required=True)
-
-    wallets = ListField(ReferenceField(Wallet))
-
 
 class Client(Account):
-    pass
+    card_number = IntField(required=True)
 
 class Merchant(Account):
-    name = StringField(required=True)
-    balance = IntField(required=True, default=0) # 
-    location = StringField(required=True)
+    account_number = IntField(required=True)

@@ -1,0 +1,46 @@
+{% extends 'layout.jekyll' %}
+{% block css %}index{% endblock %}
+{% block js %}
+    <script src="/static/js/index.js"></script>
+{% endblock %}
+{% block title %}<title>Crypto Card</title>{% endblock %}
+{% block meta %}
+    <meta name="description" content="">
+    <meta property="og:url" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Crypto Card">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="">
+{% endblock %}
+{% block content %}
+
+<div class="banner">
+    <button id="hamburger"><i class="fa-solid fa-bars"></i></button>
+    <p>Accounts</p>
+    <button id="add"><i class="fa-solid fa-plus"></i></button>
+</div>
+
+<div id="card-scroller">
+    {% for acct in accts %}
+        <div class="card-page">
+            <div class="balance">
+                <p class="">Balance:</p>
+                <p class="value">${{ card.balance }}</p>
+            </div>
+
+            
+        </div>
+
+    {% endfor %}
+</div>
+
+<div id="add" class="popup">
+    <div class="banner">
+        <button id="back">&lt;</button>
+        <p>Add Account</p>
+        <p></p>
+    </div>
+    
+</div>
+
+{% endblock %}
