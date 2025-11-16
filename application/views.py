@@ -31,9 +31,8 @@ def add_account(request, acct_type):
 
 
 def merchant_index(request):
-    merchants = request.session.get('merchants', [])
+    merchants = ['490', '1267'] #request.session.get('merchants', [])
     merchants_data = []
-    print(merchants)
     for merchant in merchants:
         data = Merchant.objects(account_number=merchant).first()
         payment_token_key = async_to_sync(get_token_account_id)(data.public_key)
@@ -45,11 +44,10 @@ def merchant_index(request):
             "public_key": data.public_key,
             "private_key": data.private_key,
         })
-    print(merchants_data)
     return render(request, 'merchant.jekyll', {"accts": merchants_data})
 
 def customer_index(request):
-    cards = request.session.get('cards', [])
+    cards = ['3456', '5678']#request.session.get('cards', [])
     cards_data = []
 
     for card in cards:
