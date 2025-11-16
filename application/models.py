@@ -15,7 +15,7 @@ class Mesh(Wallet):
 class Account(Wallet):
     meta = {
         'allow_inheritance': True
-    },
+    }
     username = StringField(required=True)
     password_hash = StringField(required=True)
 

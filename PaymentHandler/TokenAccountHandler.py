@@ -163,8 +163,19 @@ async def transfer_with_fee_payer(
         result = await rpc.send_transaction(transaction)
         print(f"Transaction signature: {result.value}")
 
+async def get_token_account_id(account_pubkey: str):
+
+    rpc = AsyncClient("https://api.mainnet-beta.solana.com")
+
+    mint_address = Pubkey.from_string("2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo")
+
+    async with rpc:
+        return get_associated_token_address(Pubkey.from_string(account_pubkey), mint_address, TOKEN_2022_PROGRAM_ID)
+
+
 
 # async def main():
+#     await get_token_account_id(pubkey)
     # print(Keypair.from_bytes(base58.b58decode("V2Kbvzc2EjUVsb9Fb8EocB8Mt7eTRNX6VJ9qmbdQwHnYajb3Qjsa53hFaeUZsZVyTFVeXgkBPRpq4GAit7rTizg")).pubkey())
     # await get_account_balance(Pubkey.from_string(""))
     #await transfer("SENDER_PRIV_KEY", "RECIP_PUBKEY", 25_0000)
