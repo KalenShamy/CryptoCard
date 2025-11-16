@@ -7,3 +7,4 @@ python-dotenv==1.2.1
 sqlparse==0.5.3
 solders==0.26
 solana==0.36.9
+base58==2.1.1
