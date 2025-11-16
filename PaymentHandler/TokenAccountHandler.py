@@ -29,7 +29,7 @@ async def get_account_balance(tokenAccountKey: Pubkey):
     async with rpc:
         try:
             balance = await rpc.get_token_account_balance(token_account_address)
-            print(int(balance.value.amount)/1000000)
+            return(int(balance.value.amount)/1000000)
         except Exception as e:
             print(f"Error getting token balance: {e}")
             print("This might be because the account doesn't exist or isn't a token account")
