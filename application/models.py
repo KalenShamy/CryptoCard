@@ -1,4 +1,3 @@
-from django.db import models
 from mongoengine import Document, StringField, IntField, BooleanField, DateTimeField, ListField, ReferenceField, FloatField
 
 # Create your models here.
@@ -7,16 +6,22 @@ class Wallet(Document):
         'allow_inheritance': True
     }
     id = StringField(required=True, primary_key=True)
-    account_number = StringField(required=True)
-    balance = IntField(required=True)  # in cents
+    private_key = StringField(required=True)
+    public_key = StringField(required=True)
 
-class Client(Wallet):
+class Mesh(Wallet):
+    pass
+
+class Account(Wallet):
+    meta = {
+        'allow_inheritance': True
+    },
     username = StringField(required=True)
-    card_number = StringField(required=True)
-    security_hash = StringField(required=True)
+    password_hash = StringField(required=True)
 
-class Merchant(Wallet):
+class Client(Account):
+    username = StringField(required=True)
+
+class Merchant(Account):
     name = StringField(required=True)
-
-class Intermediary(Wallet):
-    pending_queue = ListField(IntField(), required=True)
+    balance = IntField(required=True, default=0) # 
