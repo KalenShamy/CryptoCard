@@ -1,0 +1,38 @@
+:root {
+    --white: #F5F5F5;
+    --blue: #477fdf;
+    --dark-blue: #171464;
+}
+
+body {
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    background-color: var(--white);
+    height: 100vh;
+    overflow-y: hidden;
+}
+
+#banner {
+    height: 60px;
+    width: calc(100vw - 40px);
+    background-color: var(--blue);
+    color: var(--white);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#banner p {
+    font-size: 24px;
+}
+
+button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--white);
+}
