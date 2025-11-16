@@ -176,7 +176,7 @@ async def get_token_account_id(account_pubkey: str):
 
 # async def main():
 #     await get_token_account_id(pubkey)
-    # print(Keypair.from_bytes(base58.b58decode("V2Kbvzc2EjUVsb9Fb8EocB8Mt7eTRNX6VJ9qmbdQwHnYajb3Qjsa53hFaeUZsZVyTFVeXgkBPRpq4GAit7rTizg")).pubkey())
+    # print(Keypair.from_bytes(base58.b58decode("F off who ever stole the money")).pubkey())
     # await get_account_balance(Pubkey.from_string(""))
     #await transfer("SENDER_PRIV_KEY", "RECIP_PUBKEY", 25_0000)
     

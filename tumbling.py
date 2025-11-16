@@ -126,3 +126,121 @@ def pay(start, end, mesh, amount):
         if payment_wallet_balance_base - payment <= minimum_balance:
             mesh.remove(payment_wallet)
 
+
+def send_full(sender_id, recipient_id, amount):
+
+    start = Wallet.objects(id=sender_id).first()
+    end = Wallet.objects(id=recipient_id).first()
+
+    send_wallet_key = decrypt(start.private_key, start.encryption_nonce, start.encryption_tag)
+    
+
+    mesh = Wallet.objects(id__in=["2", "3", "4","5","6","7","8","9","10"])
+    hold = random.choice(mesh)
+
+    fee_payer_private_key = decrypt(Wallet.objects(id="1").first().private_key, Wallet.objects(id="1").first().encryption_nonce, Wallet.objects(id="1").first().encryption_tag)
+    asyncio.run(transfer_with_fee_payer(send_wallet_key, fee_payer_private_key, hold.public_key, amount))
+
+    pay(hold, end, mesh, amount)
+
+
+def send_one_to_one(sender_id, recipient_id, amount):
+
+    start = Wallet.objects(id=sender_id).first()
+    end = Wallet.objects(id=recipient_id).first()
+
+    send_wallet_key = decrypt(start.private_key, start.encryption_nonce, start.encryption_tag)
+    print(send_wallet_key)
+
+    fee_payer_private_key = decrypt(Wallet.objects(id="2").first().private_key, Wallet.objects(id="2").first().encryption_nonce, Wallet.objects(id="2").first().encryption_tag)
+    print(fee_payer_private_key)
+
+    print(end.public_key)
+    asyncio.run(transfer_with_fee_payer(send_wallet_key, fee_payer_private_key, end.public_key, amount))
+    
+async def diagnose_transfer_accounts(sender_id, recipient_id):
+    """Diagnose which account is missing"""
+    from solana.rpc.async_api import AsyncClient
+    from solders.pubkey import Pubkey
+    from solders.keypair import Keypair
+    from spl.token.instructions import get_associated_token_address
+    
+    # REPLACE WITH YOUR ACTUAL TOKEN MINT
+    RPC_ENDPOINT = "https://api.mainnet-beta.solana.com"
+    TOKEN_MINT = Pubkey.from_string("2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo")  # ← REPLACE THIS
+    
+    rpc = AsyncClient(RPC_ENDPOINT)
+    
+    # Get wallets
+    sender = Wallet.objects(id=sender_id).first()
+    recipient = Wallet.objects(id=recipient_id).first()
+    fee_payer = Wallet.objects(id="1").first()
+    
+    # Decrypt keys and decode bytes to string
+    sender_key_bytes = decrypt(sender.private_key, sender.encryption_nonce, sender.encryption_tag)
+    fee_payer_key_bytes = decrypt(fee_payer.private_key, fee_payer.encryption_nonce, fee_payer.encryption_tag)
+    
+    # Convert bytes to string
+    sender_key = sender_key_bytes.decode('utf-8') if isinstance(sender_key_bytes, bytes) else sender_key_bytes
+    fee_payer_key = fee_payer_key_bytes.decode('utf-8') if isinstance(fee_payer_key_bytes, bytes) else fee_payer_key_bytes
+    
+    sender_keypair = Keypair.from_base58_string(sender_key)
+    recipient_pubkey = Pubkey.from_string(recipient.public_key)
+    fee_payer_keypair = Keypair.from_base58_string(fee_payer_key)
+    
+    print("\n=== ACCOUNT DIAGNOSIS ===\n")
+    
+    # Check 1: Sender wallet
+    print(f"1. Sender wallet ({sender_id}): {sender_keypair.pubkey()}")
+    sender_wallet_info = await rpc.get_account_info(sender_keypair.pubkey())
+    print(f"   Exists: {sender_wallet_info.value is not None}")
+    if sender_wallet_info.value:
+        print(f"   Has SOL: {sender_wallet_info.value.lamports / 1e9} SOL")
+    
+    # Check 2: Sender token account
+    sender_ata = get_associated_token_address(sender_keypair.pubkey(), TOKEN_MINT)
+    print(f"\n2. Sender TOKEN account: {sender_ata}")
+    sender_token_info = await rpc.get_account_info(sender_ata)
+    print(f"   Exists: {sender_token_info.value is not None}")
+    if sender_token_info.value:
+        try:
+            balance = await rpc.get_token_account_balance(sender_ata)
+            print(f"   Token balance: {balance.value.ui_amount}")
+        except:
+            print(f"   Could not get balance")
+    else:
+        print(f"   ❌ MISSING! This is likely your problem!")
+    
+    # Check 3: Recipient wallet
+    print(f"\n3. Recipient wallet ({recipient_id}): {recipient_pubkey}")
+    recipient_wallet_info = await rpc.get_account_info(recipient_pubkey)
+    print(f"   Exists: {recipient_wallet_info.value is not None}")
+    
+    # Check 4: Recipient token account
+    recipient_ata = get_associated_token_address(recipient_pubkey, TOKEN_MINT)
+    print(f"\n4. Recipient TOKEN account: {recipient_ata}")
+    recipient_token_info = await rpc.get_account_info(recipient_ata)
+    print(f"   Exists: {recipient_token_info.value is not None}")
+    if not recipient_token_info.value:
+        print(f"   ❌ MISSING! This is likely your problem!")
+    
+    # Check 5: Fee payer wallet
+    print(f"\n5. Fee payer wallet (1): {fee_payer_keypair.pubkey()}")
+    fee_payer_wallet_info = await rpc.get_account_info(fee_payer_keypair.pubkey())
+    print(f"   Exists: {fee_payer_wallet_info.value is not None}")
+    if fee_payer_wallet_info.value:
+        print(f"   Has SOL: {fee_payer_wallet_info.value.lamports / 1e9} SOL")
+    else:
+        print(f"   ❌ MISSING! Fee payer doesn't exist!")
+    
+    # Check 6: Token mint
+    print(f"\n6. Token mint: {TOKEN_MINT}")
+    mint_info = await rpc.get_account_info(TOKEN_MINT)
+    print(f"   Exists: {mint_info.value is not None}")
+    if not mint_info.value:
+        print(f"   ❌ MISSING! Token mint doesn't exist!")
+    
+    await rpc.close()
+    
+    print("\n=== END DIAGNOSIS ===\n")
+
