@@ -25,7 +25,7 @@
         <div class="card-page">
             <div class="balance">
                 <p class="">Balance:</p>
-                <p class="value">${{ card.balance }}</p>
+                <p class="value">${{ acct.balance }}</p>
             </div>
 
             
@@ -37,11 +37,14 @@
 <div id="add" class="popup">
     <div class="banner">
         <button id="back">&lt;</button>
-        <p>Add Card</p>
+        <p>Add Account</p>
         <p></p>
     </div>
-    <input type="number" name="" id="add-number">
-    <button id="add-submit-m">Add Card</button>
+    <form action="/add/merchant" method="post">
+        {% csrf_token %}
+        <input type="number" name="account_number" id="account_number">
+        <button type="submit" id="add-submit-m">Add Account</button>
+    </form>
 </div>
 
 {% endblock %}

@@ -61,8 +61,11 @@
         <p>Add Card</p>
         <p></p>
     </div>
-    <input type="number" name="" id="add-number">
-    <button id="add-submit-c">Add Card</button>
+    <form action="/add/customer" method="post">
+        {% csrf_token %}
+        <input type="number" name="card_number" id="card_number">
+        <button type="submit" id="add-submit-c">Add Card</button>
+    </form>
 </div>
 
 <div id="card-control" class="popup">

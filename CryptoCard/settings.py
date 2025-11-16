@@ -41,6 +41,8 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', ".vercel.app"]
 
 # Application definition
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+
 INSTALLED_APPS = [
     'application',
     'django.contrib.auth',
